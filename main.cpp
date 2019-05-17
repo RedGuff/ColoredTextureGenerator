@@ -1,15 +1,40 @@
 #include <iostream>
+#include <cstdlib> // https://en.wikibooks.org/wiki/C%2B%2B_Programming/Code/Standard_C_Library/Functions/system
 #include <fstream>
 #include <math.h>
 #include <time.h>
 using namespace std;
 
-const int maxHz = 256; // pixels of the image. Few seconds for 256 * 256.
-const int maxVt = 256; // pixels of the image. Few seconds for 256 * 256.
+const int maxHz = 512; // pixels of the image. Few seconds for 256 * 256.
+const int maxVt = 512; // pixels of the image. Few seconds for 256 * 256.
 const int nbComposantRGB = 3;
 const int maxRGB = 256; // Each. // 65536 max.
 int rgb = 1; // R = 1, G = 2, B = 3.
 int imageTableauRGB_int[maxHz][maxVt][nbComposantRGB];
+/*
+void gotoxy(int x, int y) // https://codes-sources.commentcamarche.net/forum/affich-941809-remonter-au-ligne-precedentes-dans-une-console-win32
+{
+    COORD c = {x-1, y-1};
+    SetConsoleCursorPosition (GetStdHandle(STD_OUTPUT_HANDLE), c);
+}
+
+void delline() // https://codes-sources.commentcamarche.net/forum/affich-941809-remonter-au-ligne-precedentes-dans-une-console-win32
+{
+    COORD coord;
+    DWORD written;
+    CONSOLE_SCREEN_BUFFER_INFO info;
+
+    GetConsoleScreenBufferInfo (GetStdHandle (STD_OUTPUT_HANDLE),
+    &info);
+    coord.X = info.dwCursorPosition.X;
+    coord.Y = info.dwCursorPosition.Y;
+
+    FillConsoleOutputCharacter (GetStdHandle (STD_OUTPUT_HANDLE),
+    ' ', info.dwSize.X * info.dwCursorPosition.Y, coord, &written);
+    gotoxy (info.dwCursorPosition.X + 1,
+    info.dwCursorPosition.Y + 1);
+}
+*/
 
 int pixelInit ( int x, int y, int rgb )
 {
@@ -74,8 +99,12 @@ int main()
             }
 // On crachote.
         int nbBrosse = maxHz * maxVt / 25; // Not needed more: too long for nothing!
+cout << "Brush number:" << endl;
         for ( int brosseNumero = 1; brosseNumero <= nbBrosse; brosseNumero++ ) // iMax inclus.
             {
+
+
+cout << "\r" << brosseNumero << "/" << nbBrosse;
             int h = rand() % maxHz + 1; // ints tous inclus.;
             int v = rand() % maxVt + 1; // ints tous inclus.;
             float  douceurX = 2.0;
@@ -88,7 +117,7 @@ int main()
                 }
             } // On a tout crachoté.
 
-        clog << "Table ok." << endl;
+        clog << endl << "Table ok." << endl;
 // Convert to file:
         string name_noext = "";
         while ( name_noext == "" )
